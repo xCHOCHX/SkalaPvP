@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>ScalaPvP | Донат</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      margin: 0;
+      background-color: #0d0d0d;
+      color: white;
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .container {
+      display: flex;
+      flex-direction: row;
+      margin-top: 40px;
+      width: 95%;
+      max-width: 1300px;
+      height: 600px; /* фиксированная высота */
+    }
+
+    .donate-list {
+      width: 40%;
+      max-height: 600px;
+      height: 600px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      padding-right: 20px;
+      box-sizing: border-box;
+    }
+
+    .donate-button {
+      padding: 12px;
+      background-color: #1e1e1e;
+      border: 2px solid #333;
+      color: #fff;
+      text-align: left;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: 0.3s;
+      font-size: 18px;
+      user-select: none;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: normal;
+    }
+
+    .donate-button:hover,
+    .donate-button.active {
+      background-color: #b30099;; /* цвет заголовка сверху */
+      border-color: #b30099;
+      color: white;
+    }
+
+    /* Цена жирным */
+    .donate-price {
+      font-weight: bold;
+      margin-left: 15px;
+    }
+
+    .info-box {
+      width: 60%;
+      background-color: #1a1a1a;
+      border-radius: 10px;
+      padding: 30px;
+      box-sizing: border-box;
+      height: 600px;
+      overflow-y: auto;
+    }
+
+    .info-box h2 {
+      margin-top: 0;
+      font-size: 28px;
+    }
+
+    .section-title {
+      font-size: 20px;
+      margin-top: 25px;
+      color: #ff00cc;
+    }
+
+    .info-box ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .info-box li {
+      margin-bottom: 10px;
+      font-size: 17px;
+    }
+
+    .highlight {
+      color: #ffcc00;
+      font-weight: bold;
+    }
+
+    .buy-button {
+      margin-top: 25px;
+      display: inline-block;
+      padding: 12px 24px;
+      background-color: #b30099;
+      color: #fff;
+      font-weight: bold;
+      border-radius: 6px;
+      text-decoration: none;
+      transition: 0.3s;
+    }
+
+    .buy-button:hover {
+      background-color: #ff0066;
+    }
+
+    .price {
+      font-size: 24px;
+      font-weight: bold;
+      color: white; /* белый цвет */
+      margin-top: 10px;
+    }
+
+    @media (max-width: 800px) {
+      .container {
+        flex-direction: column;
+        height: auto;
+      }
+
+      .donate-list, .info-box {
+        width: 100%;
+        height: auto;
+        max-height: none;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <h1 style="margin-top: 20px; font-size: 32px; color: #ff00cc;">ScalaPvP — Донаты</h1>
+
+  <div class="container">
+    <div class="donate-list" id="donateList">
+      <div class="donate-button active" onclick="selectRank('Барон')">
+        <span>Барон</span><span class="donate-price">25₽</span>
+      </div>
+      <div class="donate-button" onclick="selectRank('Герой')">
+        <span>Герой</span><span class="donate-price">70₽</span>
+      </div>
+      <div class="donate-button" onclick="selectRank('Генерал')">
+        <span>Генерал</span><span class="donate-price">150₽</span>
+      </div>
+      <div class="donate-button" onclick="selectRank('Глава')">
+        <span>Глава</span><span class="donate-price">250₽</span>
+      </div>
+      <div class="donate-button" onclick="selectRank('Элита')">
+        <span>Элита</span><span class="donate-price">400₽</span>
+      </div>
+      <div class="donate-button" onclick="selectRank('Титан')">
+        <span>Титан</span><span class="donate-price">600₽</span>
+      </div>
+      <div class="donate-button" onclick="selectRank('Владыка')">
+        <span>Владыка</span><span class="donate-price">900₽</span>
+      </div>
+    </div>
+
+    <div class="info-box" id="infoBox">
+      <!-- Контент обновляется JavaScript-ом -->
+    </div>
+  </div>
+
+  <script>
+    const ranks = {
+      "Барон": {
+        color: "#00aaff",
+        price: "25₽",
+        prefix: "Барон",
+        kit: "Кит Барон",
+        extra: [
+          "Доступно точек дома: <span class='highlight'>3</span>",
+          "Блоков привата: <span class='highlight'>2</span>",
+          "Слотов на аукционе: <span class='highlight'>4</span>"
+        ]
+      },
+      "Герой": {
+        color: "#7CFC00",
+        price: "70₽",
+        prefix: "Герой",
+        kit: "Кит Герой",
+        extra: [
+          "Доступно точек дома: <span class='highlight'>4</span>",
+          "Блоков привата: <span class='highlight'>3</span>",
+          "Слотов на аукционе: <span class='highlight'>5</span>"
+        ]
+      },
+      "Генерал": {
+        color: "#00ff00",
+        price: "150₽",
+        prefix: "Генерал",
+        kit: "Кит Генерал",
+        extra: [
+          "Доступно точек дома: <span class='highlight'>5</span>",
+          "Блоков привата: <span class='highlight'>4</span>",
+          "Слотов на аукционе: <span class='highlight'>7</span>"
+        ]
+      },
+      "Глава": {
+        color: "#ff9900",
+        price: "250₽",
+        prefix: "Глава",
+        kit: "Кит Глава",
+        extra: [
+          "Доступно точек дома: <span class='highlight'>5</span>",
+          "Блоков привата: <span class='highlight'>5</span>",
+          "Слотов на аукционе: <span class='highlight'>8</span>"
+        ]
+      },
+      "Элита": {
+        color: "#cc33ff",
+        price: "400₽",
+        prefix: "Элита",
+        kit: "Кит Элита",
+        extra: [
+          "Доступно точек дома: <span class='highlight'>6</span>",
+          "Блоков привата: <span class='highlight'>6</span>",
+          "Слотов на аукционе: <span class='highlight'>10</span>"
+        ]
+      },
+      "Титан": {
+        color: "#ffff00",
+        price: "600₽",
+        prefix: "Титан",
+        kit: "Кит Титан",
+        extra: [
+          "Доступно точек дома: <span class='highlight'>7</span>",
+          "Блоков привата: <span class='highlight'>8</span>",
+          "Слотов на аукционе: <span class='highlight'>12</span>"
+        ]
+      },
+      "Владыка": {
+        color: "#ff0000",
+        price: "900₽",
+        prefix: "Владыка",
+        kit: "Кит Владыка",
+        extra: [
+          "Доступно точек дома: <span class='highlight'>8</span>",
+          "Блоков привата: <span class='highlight'>10</span>",
+          "Слотов на аукционе: <span class='highlight'>15</span>"
+        ]
+      }
+    };
+
+    function selectRank(rank) {
+      // Обновляем активную кнопку
+      document.querySelectorAll('.donate-button').forEach(btn => {
+        btn.classList.remove('active');
+        if (btn.textContent.includes(rank)) btn.classList.add('active');
+      });
+
+      const data = ranks[rank];
+      const info = `
+        <h2 style="color:${data.color}; margin-bottom: 15px;">${data.prefix}</h2>
+        <div class="section-title">Возможности</div>
+        <ul>
+          <li>${data.kit}</li>
+          <li>Префикс в чате: <span style="color:${data.color}">${data.prefix}</span></li>
+        </ul>
+        <div class="section-title">Прочее</div>
+        <ul>${data.extra.map(e => `<li>${e}</li>`).join('')}</ul>
+        <div class="section-title">Стоимость</div>
+        <p class="price">${data.price}</p>
+        <a href="#" class="buy-button">Приобрести</a>
+      `;
+      document.getElementById('infoBox').innerHTML = info;
+    }
+
+    // Показываем Барона по умолчанию
+    selectRank('Барон');
+  </script>
+</body>
+</html>
+
+
+
+
+
