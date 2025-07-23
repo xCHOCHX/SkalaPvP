@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>ScalaPvP | Донат</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <style>
     body {
       margin: 0;
@@ -55,7 +55,7 @@
 
     .donate-button:hover,
     .donate-button.active {
-      background-color: #b30099;; /* цвет заголовка сверху */
+      background-color: #b30099; /* цвет заголовка сверху */
       border-color: #b30099;
       color: white;
     }
@@ -74,6 +74,8 @@
       box-sizing: border-box;
       height: 600px;
       overflow-y: auto;
+      position: relative;
+      padding-bottom: 80px; /* место под кнопку */
     }
 
     .info-box h2 {
@@ -102,15 +104,33 @@
       font-weight: bold;
     }
 
+    input[type='number'] {
+      width: 100%;
+      padding: 10px;
+      font-size: 18px;
+      border-radius: 6px;
+      border: 2px solid #333;
+      background-color: #0d0d0d;
+      color: white;
+      box-sizing: border-box;
+      margin-top: 10px;
+    }
+
     .buy-button {
-      margin-top: 25px;
-      display: inline-block;
-      padding: 12px 24px;
+      position: absolute;
+      bottom: 20px;
+      left: 30px;
+      right: 30px;
+      padding: 14px 0;
       background-color: #b30099;
       color: #fff;
       font-weight: bold;
       border-radius: 6px;
-      text-decoration: none;
+      text-align: center;
+      font-size: 20px;
+      cursor: pointer;
+      border: none;
+      user-select: none;
       transition: 0.3s;
     }
 
@@ -131,17 +151,28 @@
         height: auto;
       }
 
-      .donate-list, .info-box {
+      .donate-list,
+      .info-box {
         width: 100%;
         height: auto;
         max-height: none;
+        padding-bottom: 80px;
+      }
+
+      .buy-button {
+        position: fixed;
+        bottom: 20px;
+        left: 20px;
+        right: 20px;
+        z-index: 100;
       }
     }
   </style>
 </head>
 <body>
-
-  <h1 style="margin-top: 20px; font-size: 32px; color: #ff00cc;">ScalaPvP — Донаты</h1>
+  <h1 style="margin-top: 20px; font-size: 32px; color: #ff00cc">
+    ScalaPvP — Донаты
+  </h1>
 
   <div class="container">
     <div class="donate-list" id="donateList">
@@ -166,6 +197,9 @@
       <div class="donate-button" onclick="selectRank('Владыка')">
         <span>Владыка</span><span class="donate-price">900₽</span>
       </div>
+      <div class="donate-button" onclick="selectRank('XC')">
+        <span>XC</span>
+      </div>
     </div>
 
     <div class="info-box" id="infoBox">
@@ -175,77 +209,77 @@
 
   <script>
     const ranks = {
-      "Барон": {
-        color: "#00aaff",
-        price: "25₽",
-        prefix: "Барон",
-        kit: "Кит Барон",
+      Барон: {
+        color: '#00aaff',
+        price: '25₽',
+        prefix: 'Барон',
+        kit: 'Кит Барон',
         extra: [
           "Доступно точек дома: <span class='highlight'>3</span>",
           "Блоков привата: <span class='highlight'>2</span>",
           "Слотов на аукционе: <span class='highlight'>4</span>"
         ]
       },
-      "Герой": {
-        color: "#7CFC00",
-        price: "70₽",
-        prefix: "Герой",
-        kit: "Кит Герой",
+      Герой: {
+        color: '#7CFC00',
+        price: '70₽',
+        prefix: 'Герой',
+        kit: 'Кит Герой',
         extra: [
           "Доступно точек дома: <span class='highlight'>4</span>",
           "Блоков привата: <span class='highlight'>3</span>",
           "Слотов на аукционе: <span class='highlight'>5</span>"
         ]
       },
-      "Генерал": {
-        color: "#00ff00",
-        price: "150₽",
-        prefix: "Генерал",
-        kit: "Кит Генерал",
+      Генерал: {
+        color: '#00ff00',
+        price: '150₽',
+        prefix: 'Генерал',
+        kit: 'Кит Генерал',
         extra: [
           "Доступно точек дома: <span class='highlight'>5</span>",
           "Блоков привата: <span class='highlight'>4</span>",
           "Слотов на аукционе: <span class='highlight'>7</span>"
         ]
       },
-      "Глава": {
-        color: "#ff9900",
-        price: "250₽",
-        prefix: "Глава",
-        kit: "Кит Глава",
+      Глава: {
+        color: '#ff9900',
+        price: '250₽',
+        prefix: 'Глава',
+        kit: 'Кит Глава',
         extra: [
           "Доступно точек дома: <span class='highlight'>5</span>",
           "Блоков привата: <span class='highlight'>5</span>",
           "Слотов на аукционе: <span class='highlight'>8</span>"
         ]
       },
-      "Элита": {
-        color: "#cc33ff",
-        price: "400₽",
-        prefix: "Элита",
-        kit: "Кит Элита",
+      Элита: {
+        color: '#cc33ff',
+        price: '400₽',
+        prefix: 'Элита',
+        kit: 'Кит Элита',
         extra: [
           "Доступно точек дома: <span class='highlight'>6</span>",
           "Блоков привата: <span class='highlight'>6</span>",
           "Слотов на аукционе: <span class='highlight'>10</span>"
         ]
       },
-      "Титан": {
-        color: "#ffff00",
-        price: "600₽",
-        prefix: "Титан",
-        kit: "Кит Титан",
+      Титан: {
+        color: '#ffff00',
+        price: '600₽',
+        prefix: 'Титан👑',
+        kit: 'Кит Титан',
         extra: [
           "Доступно точек дома: <span class='highlight'>7</span>",
           "Блоков привата: <span class='highlight'>8</span>",
           "Слотов на аукционе: <span class='highlight'>12</span>"
         ]
       },
-      "Владыка": {
-        color: "#ff0000",
-        price: "900₽",
-        prefix: "Владыка",
-        kit: "Кит Владыка",
+      Владыка: {
+        color: '#ff0000',
+        price: '900₽',
+        prefix: 'Владыка😈',
+        kit: 'Кит Владыка',
         extra: [
           "Доступно точек дома: <span class='highlight'>8</span>",
           "Блоков привата: <span class='highlight'>10</span>",
@@ -256,26 +290,85 @@
 
     function selectRank(rank) {
       // Обновляем активную кнопку
-      document.querySelectorAll('.donate-button').forEach(btn => {
+      document.querySelectorAll('.donate-button').forEach((btn) => {
         btn.classList.remove('active');
-        if (btn.textContent.includes(rank)) btn.classList.add('active');
+        if (
+          (rank === 'XC' &&
+            btn.textContent.trim() === 'XC') ||
+          btn.textContent.includes(rank)
+        ) {
+          btn.classList.add('active');
+        }
       });
 
-      const data = ranks[rank];
-      const info = `
-        <h2 style="color:${data.color}; margin-bottom: 15px;">${data.prefix}</h2>
-        <div class="section-title">Возможности</div>
-        <ul>
-          <li>${data.kit}</li>
-          <li>Префикс в чате: <span style="color:${data.color}">${data.prefix}</span></li>
-        </ul>
-        <div class="section-title">Прочее</div>
-        <ul>${data.extra.map(e => `<li>${e}</li>`).join('')}</ul>
-        <div class="section-title">Стоимость</div>
-        <p class="price">${data.price}</p>
-        <a href="#" class="buy-button">Приобрести</a>
-      `;
-      document.getElementById('infoBox').innerHTML = info;
+      if (rank === 'XC') {
+        document.getElementById('infoBox').innerHTML = `
+          <h2 style="color:#ff00cc; margin-bottom: 15px;">Купить донатную валюту XC</h2>
+          <p>Обмен: <b>1₽ = 4 XC</b></p>
+          <label for="xcAmount">Введите количество XC:</label>
+          <input type="number" id="xcAmount" min="1" value="100" />
+          <p class="section-title">Итоговая стоимость:</p>
+          <p class="price" id="totalPrice">25₽</p>
+          <button class="buy-button" id="buyXCBtn">Приобрести</button>
+        `;
+
+        const xcInput = document.getElementById('xcAmount');
+        const totalPriceEl = document.getElementById('totalPrice');
+        const buyBtn = document.getElementById('buyXCBtn');
+
+        function updatePrice() {
+          let amount = parseInt(xcInput.value, 10);
+          if (isNaN(amount) || amount < 1) {
+            amount = 1;
+            xcInput.value = amount;
+          }
+          const price = (amount / 4).toFixed(2);
+          totalPriceEl.textContent = price + '₽';
+        }
+
+        xcInput.addEventListener('input', updatePrice);
+        updatePrice();
+
+        buyBtn.addEventListener('click', () => {
+          const amount = parseInt(xcInput.value, 10);
+          if (amount && amount >= 1) {
+            alert(
+              `Вы купили ${amount} XC за ${(amount / 4).toFixed(2)}₽`
+            );
+            // Тут можно добавить логику отправки запроса на сервер
+          } else {
+            alert('Введите корректное количество XC');
+          }
+        });
+      } else {
+        const data = ranks[rank];
+        if (!data) return;
+
+        const info = `
+          <h2 style="color:${data.color}; margin-bottom: 15px;">${data.prefix}</h2>
+          <div class="section-title">Возможности</div>
+          <ul>
+            <li>${data.kit}</li>
+            <li>Префикс в чате: <span style="color:${data.color}">${data.prefix}</span></li>
+          </ul>
+          <div class="section-title">Прочее</div>
+          <ul>${data.extra
+            .map((e) => `<li>${e}</li>`)
+            .join('')}</ul>
+          <div class="section-title">Стоимость</div>
+          <p class="price">${data.price}</p>
+          <button class="buy-button" id="buyRankBtn">Приобрести</button>
+        `;
+        document.getElementById('infoBox').innerHTML = info;
+
+        // Можно добавить обработчик кнопки покупки ранга здесь
+        document
+          .getElementById('buyRankBtn')
+          .addEventListener('click', () => {
+            alert(`Вы выбрали покупку ранга "${rank}" за ${data.price}`);
+            // Добавить логику покупки ранга
+          });
+      }
     }
 
     // Показываем Барона по умолчанию
@@ -283,7 +376,6 @@
   </script>
 </body>
 </html>
-
 
 
 
